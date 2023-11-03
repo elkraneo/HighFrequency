@@ -23,7 +23,7 @@ struct ImmersiveView: View {
           let didAddEntitySubscription = content.subscribe(to: SceneEvents.DidAddEntity.self) {
             event in
             Task {
-              viewStore.send(.didAddEntity(event.entity.id)).finish()
+              await viewStore.send(.didAddEntity(event.entity.id)).finish()
             }
           }
           subscriptions.append(didAddEntitySubscription)
