@@ -42,7 +42,6 @@ struct ContentView: View {
           LabeledContent("Delta", value: "\(viewStore.updateInterval?.description ?? "")")
             .font(.headline)
             .padding(.horizontal)
-
         }
         .padding()
 

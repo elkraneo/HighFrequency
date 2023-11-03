@@ -18,7 +18,7 @@ struct HighFrequencyApp: App {
       ContentView(store: store)
     }
     .windowResizability(.contentMinSize)
-    .defaultSize(width: 250, height: 500)
+    .defaultSize(width: 500, height: 500)
 
     ImmersiveSpace(id: "ImmersiveSpace") {
       ImmersiveView(store: store)
