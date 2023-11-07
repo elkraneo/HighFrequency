@@ -13,6 +13,7 @@ import SwiftUI
 struct ImmersiveView: View {
   let store: StoreOf<AppCore>
   @State private var subscriptions: [EventSubscription] = []
+  @State private var debouncedTask: Task<Void, Error>?
 
   var body: some View {
     WithViewStore(self.store, observe: \.inputText) { viewStore in
@@ -30,11 +31,10 @@ struct ImmersiveView: View {
 
           let sceneUpdateSubscription = content.subscribe(to: SceneEvents.Update.self) {
             event in
-            Task {
-              do {
-                try await Task.sleep(for: .milliseconds(500))
-                await viewStore.send(.didUpdate(event.deltaTime)).finish()
-              } catch {}
+            self.debouncedTask?.cancel()
+            self.debouncedTask = Task {
+              try await Task.sleep(for: .milliseconds(500))
+              await viewStore.send(.didUpdate(event.deltaTime)).finish()
             }
           }
           subscriptions.append(sceneUpdateSubscription)
